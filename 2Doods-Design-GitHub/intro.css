@@ -1,0 +1,213 @@
+.atalho-conteudo {
+  position: fixed;
+  z-index: 101;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.8rem 1rem;
+  border: 2px solid #19242f;
+  border-radius: 0.25rem;
+  background: #fff;
+  color: #19242f;
+  transform: translateY(calc(-100% - 1.5rem));
+}
+
+.atalho-conteudo:focus {
+  outline: 2px solid #3573c5;
+  outline-offset: 2px;
+  transform: none;
+}
+
+.abertura-pendente:has(.abertura:not(.abertura--abrindo)) .atalho-conteudo {
+  top: auto;
+  bottom: max(.65rem, env(safe-area-inset-bottom));
+  left: max(calc(var(--gutter) - 1rem), env(safe-area-inset-left));
+  border-color: transparent;
+  background: transparent;
+  color: var(--on-dark);
+  font-size: .875rem;
+  text-decoration-color: #8191a2;
+  transform: none;
+}
+
+.abertura-pendente .atalho-conteudo:is(:focus, :hover) {
+  color: #fff;
+}
+
+.abertura {
+  display: none;
+}
+
+.abertura-pendente {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.abertura-pendente .abertura {
+  --eixo-simbolo: 46%;
+  --largura-simbolo: min(21rem, 59vw, 44svh);
+  --tempo-abertura: 750ms;
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.abertura:empty {
+  background: var(--ink);
+}
+
+.abertura__porta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--ink);
+  transition: transform var(--tempo-abertura) cubic-bezier(.28, .23, .3, 1);
+}
+
+.abertura__porta--esquerda {
+  left: 0;
+  box-shadow: 0.5px 0 var(--ink);
+}
+
+.abertura__porta--direita {
+  right: 0;
+}
+
+.abertura__porta::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 1px;
+  background: var(--line-dark);
+  opacity: 0;
+  transition: opacity 140ms ease-out;
+}
+
+.abertura__porta--esquerda::after { right: 0; }
+.abertura__porta--direita::after { left: 0; }
+
+.abertura__porta svg {
+  position: absolute;
+  top: var(--eixo-simbolo);
+  display: block;
+  width: calc(var(--largura-simbolo) / 2);
+  height: auto;
+  transform: translateY(-50%);
+}
+
+.abertura__porta--esquerda svg {
+  right: 0;
+}
+
+.abertura__porta--direita svg {
+  left: 0;
+}
+
+.abertura__botao {
+  position: absolute;
+  top: var(--eixo-simbolo);
+  left: 50%;
+  width: var(--largura-simbolo);
+  aspect-ratio: 420 / 460;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: opacity 115ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.abertura__botao:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.abertura__rotulo {
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: minmax(.25rem, 1fr) auto minmax(.25rem, 1fr);
+  align-items: center;
+  gap: clamp(.45rem, 2vw, .85rem);
+  width: 77.37%;
+  min-width: 10rem;
+  padding: .65rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: .015em;
+  line-height: 1.4;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.abertura__rotulo::before, .abertura__rotulo::after {
+  content: "";
+  height: 2px;
+  transition: translate 170ms cubic-bezier(.25, .45, .35, 1);
+}
+
+.abertura__rotulo::before { background: var(--coral); }
+.abertura__rotulo::after { background: var(--blue); }
+.abertura__botao:is(:hover, :focus-visible) .abertura__rotulo::before { translate: -4px 0; }
+.abertura__botao:is(:hover, :focus-visible) .abertura__rotulo::after { translate: 4px 0; }
+
+.abertura--abrindo .abertura__porta--esquerda {
+  transform: translateX(-101%);
+}
+
+.abertura--abrindo .abertura__porta--direita {
+  transform: translateX(101%);
+}
+
+.abertura--abrindo .abertura__porta::after {
+  opacity: 1;
+}
+
+.abertura--abrindo .abertura__botao {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .abertura-pendente .hero-copy > h1 {
+    translate: -12px 0;
+    transition: translate 470ms cubic-bezier(.25, .45, .35, 1) 30ms;
+  }
+
+  .abertura-pendente .hero-copy > .actions {
+    opacity: .72;
+    translate: 10px 0;
+    transition: opacity 300ms ease-out 85ms, translate 385ms cubic-bezier(.25, .45, .35, 1) 85ms;
+  }
+
+  .abertura-pendente .hero-art {
+    opacity: 0;
+    transition: opacity 215ms ease-out 470ms;
+  }
+
+  .abertura--abrindo ~ #site :is(.hero-copy > .actions, .hero-art) {
+    opacity: 1;
+  }
+
+  .abertura--abrindo ~ #site .hero-copy > :is(h1, .actions) {
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura-pendente .abertura {
+    display: none;
+  }
+
+  .abertura-pendente {
+    overflow: auto;
+    overscroll-behavior: auto;
+  }
+}
