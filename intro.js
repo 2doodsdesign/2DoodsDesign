@@ -1,7 +1,7 @@
 (() => {
   const root = document.documentElement;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const sessionKey = '2doods.abertura';
+  const sessionKey = '2doods.abertura.cartaz';
   let alreadyShown = false;
 
   try {
@@ -29,21 +29,27 @@
     // A divisão do viewBox usa as mesmas coordenadas e caminhos do SVG v6.
     intro.innerHTML = `
       <div class="abertura__porta abertura__porta--esquerda" aria-hidden="true">
-        <svg viewBox="0 0 210 460" width="210" height="460" aria-hidden="true" focusable="false">
+        <svg class="abertura__chapa" viewBox="19 13 54 127" width="54" height="127" focusable="false">
+          <use href="#abertura-coral"/>
+        </svg>
+        <svg class="abertura__marca" viewBox="0 0 210 460" width="210" height="460" focusable="false">
           <g transform="translate(47.527559055118104 49) scale(2.8503937007874014) translate(-19 -13)">
-            <path fill="#EF3159" fill-rule="evenodd" d="M30 13 H62 Q73 13 73 24 V40 H57 Q52 40 52 45 V108 Q52 113 57 113 H73 V129 Q73 140 62 140 H30 Q19 140 19 129 V24 Q19 13 30 13 Z"/>
+            <path id="abertura-coral" fill="#EF3159" fill-rule="evenodd" d="M30 13 H62 Q73 13 73 24 V40 H57 Q52 40 52 45 V108 Q52 113 57 113 H73 V129 Q73 140 62 140 H30 Q19 140 19 129 V24 Q19 13 30 13 Z"/>
           </g>
         </svg>
       </div>
       <div class="abertura__porta abertura__porta--direita" aria-hidden="true">
-        <svg viewBox="210 0 210 460" width="210" height="460" aria-hidden="true" focusable="false">
+        <svg class="abertura__chapa" viewBox="79 13 54 127" width="54" height="127" focusable="false">
+          <use href="#abertura-azul"/>
+        </svg>
+        <svg class="abertura__marca" viewBox="210 0 210 460" width="210" height="460" focusable="false">
           <g transform="translate(47.527559055118104 49) scale(2.8503937007874014) translate(-19 -13)">
-            <path fill="#3573C5" fill-rule="evenodd" d="M90 13 H122 Q133 13 133 24 V129 Q133 140 122 140 H90 Q79 140 79 129 V113 H95 Q100 113 100 108 V45 Q100 40 95 40 H79 V24 Q79 13 90 13 Z"/>
+            <path id="abertura-azul" fill="#3573C5" fill-rule="evenodd" d="M90 13 H122 Q133 13 133 24 V129 Q133 140 122 140 H90 Q79 140 79 129 V113 H95 Q100 113 100 108 V45 Q100 40 95 40 H79 V24 Q79 13 90 13 Z"/>
           </g>
         </svg>
       </div>
       <button class="abertura__botao" type="button">
-        <span class="abertura__rotulo">Entrar na 2Doods</span>
+        <span class="abertura__rotulo">Entrar na 2Doods <span aria-hidden="true">→</span></span>
       </button>
     `;
 

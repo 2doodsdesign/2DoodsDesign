@@ -43,9 +43,10 @@
 }
 
 .abertura-pendente .abertura {
-  --eixo-simbolo: 46%;
-  --largura-simbolo: min(21rem, 59vw, 44svh);
-  --tempo-abertura: 750ms;
+  --eixo-simbolo: 44%;
+  --largura-simbolo: min(31rem, 73vw, 55svh);
+  --largura-chapa: min(32vw, 50svh, 34rem);
+  --tempo-abertura: 790ms;
   position: fixed;
   z-index: 100;
   inset: 0;
@@ -64,7 +65,7 @@
   bottom: 0;
   width: 50%;
   background: var(--ink);
-  transition: transform var(--tempo-abertura) cubic-bezier(.28, .23, .3, 1);
+  transition: transform var(--tempo-abertura) cubic-bezier(.25, .27, .32, 1);
 }
 
 .abertura__porta--esquerda {
@@ -89,7 +90,7 @@
 .abertura__porta--esquerda::after { right: 0; }
 .abertura__porta--direita::after { left: 0; }
 
-.abertura__porta svg {
+.abertura__marca {
   position: absolute;
   top: var(--eixo-simbolo);
   display: block;
@@ -98,12 +99,32 @@
   transform: translateY(-50%);
 }
 
-.abertura__porta--esquerda svg {
+.abertura__porta--esquerda .abertura__marca {
   right: 0;
 }
 
-.abertura__porta--direita svg {
+.abertura__porta--direita .abertura__marca {
   left: 0;
+}
+
+.abertura__chapa {
+  position: absolute;
+  display: block;
+  width: var(--largura-chapa);
+  height: auto;
+  transition: translate 550ms cubic-bezier(.22, .45, .28, 1);
+}
+
+.abertura__porta--esquerda .abertura__chapa {
+  bottom: 43%;
+  left: -8vw;
+  filter: drop-shadow(7px 7px 0 var(--surface));
+}
+
+.abertura__porta--direita .abertura__chapa {
+  top: 49%;
+  right: -8vw;
+  filter: drop-shadow(-7px -7px 0 var(--surface));
 }
 
 .abertura__botao {
@@ -119,7 +140,7 @@
   font: inherit;
   cursor: pointer;
   transform: translate(-50%, -50%);
-  transition: opacity 115ms ease-out;
+  transition: opacity 160ms ease-in;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -130,33 +151,44 @@
 
 .abertura__rotulo {
   position: absolute;
-  top: 95%;
+  top: 94%;
   left: 50%;
-  display: grid;
-  grid-template-columns: minmax(.25rem, 1fr) auto minmax(.25rem, 1fr);
+  display: inline-flex;
   align-items: center;
-  gap: clamp(.45rem, 2vw, .85rem);
-  width: 77.37%;
-  min-width: 10rem;
-  padding: .65rem 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: .015em;
-  line-height: 1.4;
+  justify-content: space-between;
+  gap: clamp(1.05rem, 2.4vw, 2rem);
+  min-height: 3.25rem;
+  padding: .7rem 1.05rem .7rem 1.2rem;
+  background: var(--surface);
+  box-shadow: -5px 5px 0 var(--coral), 5px -5px 0 var(--blue);
+  color: var(--ink);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -.045em;
+  line-height: 1.2;
   white-space: nowrap;
-  transform: translateX(-50%);
+  translate: -50% 0;
+  rotate: -4deg;
+  transition: translate 155ms ease-out, rotate 155ms ease-out, box-shadow 155ms ease-out;
 }
 
-.abertura__rotulo::before, .abertura__rotulo::after {
-  content: "";
-  height: 2px;
-  transition: translate 170ms cubic-bezier(.25, .45, .35, 1);
+.abertura__rotulo span {
+  font-size: 1.4em;
+  line-height: 1;
 }
 
-.abertura__rotulo::before { background: var(--coral); }
-.abertura__rotulo::after { background: var(--blue); }
-.abertura__botao:is(:hover, :focus-visible) .abertura__rotulo::before { translate: -4px 0; }
-.abertura__botao:is(:hover, :focus-visible) .abertura__rotulo::after { translate: 4px 0; }
+.abertura__botao:is(:hover, :focus-visible) .abertura__rotulo {
+  translate: -50% -3px;
+  rotate: -1deg;
+  box-shadow: -7px 7px 0 var(--coral), 7px -7px 0 var(--blue);
+}
+
+.abertura__botao:active .abertura__rotulo,
+.abertura--abrindo .abertura__rotulo {
+  translate: -50% 3px;
+  rotate: 0deg;
+  box-shadow: -2px 2px 0 var(--coral), 2px -2px 0 var(--blue);
+}
 
 .abertura--abrindo .abertura__porta--esquerda {
   transform: translateX(-101%);
@@ -165,6 +197,9 @@
 .abertura--abrindo .abertura__porta--direita {
   transform: translateX(101%);
 }
+
+.abertura--abrindo .abertura__porta--esquerda .abertura__chapa { translate: -10% -5%; }
+.abertura--abrindo .abertura__porta--direita .abertura__chapa { translate: 10% 5%; }
 
 .abertura--abrindo .abertura__porta::after {
   opacity: 1;
@@ -189,7 +224,7 @@
 
   .abertura-pendente .hero-art {
     opacity: 0;
-    transition: opacity 215ms ease-out 470ms;
+    transition: opacity 215ms ease-out 510ms;
   }
 
   .abertura--abrindo ~ #site :is(.hero-copy > .actions, .hero-art) {
@@ -199,6 +234,29 @@
   .abertura--abrindo ~ #site .hero-copy > :is(h1, .actions) {
     translate: 0 0;
   }
+}
+
+@media (max-width: 48rem) {
+  .abertura-pendente .abertura {
+    --largura-chapa: min(38vw, 29svh);
+  }
+
+  .abertura__porta--esquerda .abertura__chapa {
+    bottom: 74%;
+    left: -8vw;
+    filter: drop-shadow(5px 5px 0 var(--surface));
+  }
+
+  .abertura__porta--direita .abertura__chapa {
+    top: 74%;
+    right: -8vw;
+    filter: drop-shadow(-5px -5px 0 var(--surface));
+  }
+}
+
+@media (max-width: 22rem) {
+  .abertura__porta--esquerda .abertura__chapa { bottom: 77%; }
+  .abertura__porta--direita .abertura__chapa { top: 77%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

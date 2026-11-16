@@ -355,7 +355,6 @@ h1 {
 .person + .person { margin-top: clamp(2.5rem, 6vw, 5rem); }
 .person h3 { margin-top: 0; font-size: clamp(1.55rem, 2.8vw, 2.45rem); }
 .person-role { margin-top: .52rem; }
-.person-role + p { margin-top: .85rem; }
 
 .person-feature {
   display: grid;
